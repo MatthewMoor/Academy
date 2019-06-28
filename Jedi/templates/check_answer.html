@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+
+<center>
+    <h2>{{ candidate_name }}</h2>
+    <table>
+        <tr><th>Вопрос</th><th>Ответ</th></tr>
+        {% for test in test_list %}
+        <tr>
+            <td>{{ test.test_question.text }}</td>
+            <td>{{ test.test_answer.text }}</td>
+        </tr>
+        {% endfor %}
+        <tr><th>Всего вопросов: {{ question }}</th><th nowrap>Правильных: {{ answer }}</th></tr>
+    </table>
+</center>
+{% end block %}

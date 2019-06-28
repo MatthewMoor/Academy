@@ -7,15 +7,24 @@ from django.db import models
 class TestQuestion(models.Model):
     text = models.TextField()
 
+    def __str__(self):
+        return self.text
+
 
 class Planet(models.Model):
     name = models.CharField(max_length=20)
+
+    def __str__(self):
+        return self.name
 
 
 class Jedi(models.Model):
     planet = models.ForeignKey(Planet, on_delete=models.CASCADE)
     name = models.CharField(max_length=50)
     max_number_pupils = models.IntegerField()
+
+    def __str__(self):
+        return self.name
 
 
 class Candidate(models.Model):
@@ -25,6 +34,9 @@ class Candidate(models.Model):
     email = models.CharField(max_length=50)
     name = models.CharField(max_length=50)
     age = models.IntegerField()
+
+    def __str__(self):
+        return self.name
 
 
 class TestAnswer(models.Model):

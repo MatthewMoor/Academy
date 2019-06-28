@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+<center>
+    <form method="POST" action="test" >{% csrf_token %}
+        {% for Question in Questions %}
+        <fieldset>
+            <legend><p><b>{{ Question.text }}</b></p></legend>
+            {% for Answer in Answers %}
+            {% if Answer.question == Question %}
+            <p><input name={{Question.id}} type="radio" value={{Answer.id}} checked> {{ Answer.text }} </p>
+            {% endif%}
+            {% endfor %}
+        </fieldset>
+        {% endfor %}
+        <input name="candidate_id" type="hidden" value={{candidate_id}}>
+        <input type="submit" value="дальше" >
+    </form>
+</center>
+{% endblock %}
