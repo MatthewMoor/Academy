@@ -2,7 +2,7 @@
 {% block content %}
 
 <center>
-    <h2>{{ candidate_name }}</h2>
+    <h2>The name of the candidate:<br>{{ candidate_name }}</h2>
     <table>
         <tr><th>Question</th><th>Answer</th></tr>
         {% for test in test_list %}
@@ -11,7 +11,7 @@
             <td>{{ test.test_answer.text }}</td>
         </tr>
         {% endfor %}
-        <tr><th>Total answers: {{ question }}</th><th nowrap>Correct: {{ answer }}</th></tr>
+        <tr><th>Total question: {{ number_of_questions }}</th><th nowrap>Correct: {{ number_of_answer }}</th></tr>
     </table>
 </center>
-{% end block %}
+{% endblock %}

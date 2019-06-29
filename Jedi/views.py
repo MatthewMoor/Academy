@@ -76,12 +76,12 @@ def jedi_from(request):
 
     return render(request, "djedai_detail.html", context)
 
-def see_test(request):
+def see_test(request, candidate_id):
     test_list = CandidateAnswers.objects.all().filter(candidate=candidate_id)
-    context = ({"test_list": test_list,
+    context = {"test_list": test_list,
                 "candidate_name": Candidate.objects.get(
                     id__exact=candidate_id).name,
                 "number_of_answer": test_list.filter(
                     test_answer__is_correct_answer__exact=True).count(),
-                "number_of_questions": test_list.count()})
+                "number_of_questions": test_list.count(),}
     return render(request, "check_answer.html", context)

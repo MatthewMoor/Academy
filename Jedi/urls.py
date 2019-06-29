@@ -8,5 +8,5 @@ urlpatterns = [
     path('test', views.test_save, name='test'),
     path('Jedis/', views.jedis_list, name='JedisList'),
     path('JediDetail/', views.jedi_from, name='Djedi'),
-    path('SeeTest/<int:candidate_id>/', views.see_test, name='see_test'),
+    path('SeeTest/<int:candidate_id>/', views.see_test, name='supervise'),
 ]

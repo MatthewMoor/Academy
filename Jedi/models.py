@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.urls import reverse
 # Create your models here.
 from django.db import models
 
@@ -37,7 +37,9 @@ class Candidate(models.Model):
 
     def __str__(self):
         return self.name
-
+    
+    def get_absolute_url(self):
+        return reverse("supervise", kwargs={"id": self.id})
 
 class TestAnswer(models.Model):
     question = models.ForeignKey(TestQuestion, on_delete=models.CASCADE)
@@ -46,6 +48,9 @@ class TestAnswer(models.Model):
 
     def __str__(self):
         return self.text
+    
+    def get_absolute_url(self):
+        return reverse("supervise", kwargs={"id": self.id})
 
 
 class CandidateAnswers(models.Model):
