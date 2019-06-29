@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+<form method="POST" action="{%url 'Djedi'%}">{% csrf_token %}
+        <table>
+            <tr><th colspan="2">Filter for candidates</th></tr>
+            <tr><th>Name</th><th><input type="text" name="name_filter" value="{{name}}"/></th></tr>
+            <tr><th>Min age</th><th><input type="number" name="age_filter" value="{{age}}"/></th></tr>
+            <tr><th colspan="2"><input type="submit" value="Apply"></th></tr>
+        </table>
+        <center>
+            <input type="hidden" name="selected_jedi" value="{{selected_jedi}}">
+            <h2>List of candidates</h2>
+            <table>
+                <tr><th>Name</th><th>Age</th><th>Test</th><th>email</th></tr>
+                {% csrf_token %}
+                {% for candidate in list_candidate %}
+                <tr>
+                    <td>{{ candidate.name }}</td>
+                    <td>{{ candidate.age }}</td>
+                    <td><a href="">Result</a></td>
+                    <td>{{ candidate.email }}</td>
+                    <td><a href="">Take in student</a></td>
+                </tr>
+                {% endfor %}
+            </table>
+        </center>
+</form>
+{% endblock %}

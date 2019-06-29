@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+<form method="POST" action="{% url 'JedisList' %}">{% csrf_token %}
+        <table>
+            <tr><th>Мин кол-во учеников</th><th><input type="number" name="min_number_of_students" min="0" value="{{min_number_of_students}}"/></th></tr>
+            <tr><th colspan="2"><input type="submit" value="Apply" ></th></tr>
+        </table>
+<form action=""></form>
+<form method="POST" action="{% url 'Djedi' %}">
+    {% csrf_token %}
+    <center>
+        <table>
+            <tr><th colspan="3">
+                <select name="selected_jedi">
+                    {% for jedi in all_jedi %}
+                    <option value={{jedi.id}}>{{ jedi.name }}</option>
+                    {% endfor %}
+                </select>
+                <input type="submit" value="Выбрать" >
+            </tr></th>
+            <tr><th>Jedi</th><th>Students</th><th>Planet</th></tr>
+            {% for jedi in list_jedi %}
+            <tr>
+                <td>{{ jedi.name }}</td>
+                <td nowrap>
+                    {% for students in  jedi.candidate_set.all %}
+                        {{ students.name }}<br>
+                    {% endfor %}
+                </td>
+                <td>{{ jedi.planet.name }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </center>
+</form>
+{% endblock %}

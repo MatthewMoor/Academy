@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from Jedi.models import Candidate, Jedi, TestQuestion, TestAnswer, Planet, CandidateAnswers
 from Jedi.forms import CandidateForm
+from django.views import generic
+from django.db.models import Count
 
 # Create your views here.
 def index(request):
@@ -33,17 +35,17 @@ def candidate_resume(request):
     return render(request, "new_member.html", {"form": form})
 
 
-def send_message(request):
-    if request.method == "POST":
-        candidate_answer = CandidateAnswers.objects.create(
-            test_question = request.POST.get("question"),
-            test_answer = request.POST.get("answer"),
-            candidate = request.POST.get("candidate"),
-        )
-        return render(request, "gratitude.html", {"candidate":candidate_answer.id})
+# def send_message(request):
+#     if request.method == "POST":
+#         candidate_answer = CandidateAnswers.objects.create(
+#             test_question = request.POST.get("question"),
+#             test_answer = request.POST.get("answer"),
+#             candidate = request.POST.get("candidate"),
+#         )
+#         return render(request, "gratitude.html", {"candidate":candidate_answer.id})
     
 
-def test_main(request):
+def test_save(request):
     id_candidate = request.POST.get("candidate_id")
     for test_question in TestQuestion.objects.all():
         selected_option = request.POST.get(str(test_question.id))
@@ -54,4 +56,36 @@ def test_main(request):
     return render(request, "index.html")
 
 
+def jedis_list(request):
+    min_students = request.POST.get('min_number_of_students', 0)
+    all_jedi = Jedi.objects.all()
+    list_jedi = Jedi.objects.annotate(Count('candidate')).filter(
+        candidate__count__gte=min_students
+    )
+    return render(request, 'list_jedi.html', {'list_jedi': list_jedi,
+                                                 'all_jedi': all_jedi,
+                                                 'min_number_of_students':
+                                                     min_students})
 
+
+def jedi_from(request):
+    jedi = request.POST.get('selected_jedi')
+    context = ({'selected_jedi': jedi,
+                'name': request.POST.get('name_filter', ''),
+                'age': request.POST.get('age_filter', 0),
+                'list_candidates': Candidate.objects.all().filter(
+                    name__icontains=request.POST.get('name_filter', ''),
+                    age__gte=request.POST.get('age_filter', 0),
+                    planet=Jedi.objects.get(id=jedi).planet,
+                    jedi__isnull=True)})
+    return render(request, "djedai_detail.html", context)
+
+def see_test(request):
+    test_list = CandidateAnswers.objects.all().filter(candidate=candidate_id)
+    context = ({"test_list": test_list,
+                "candidate_name": Candidate.objects.get(
+                    id__exact=candidate_id).name,
+                "number_of_answer": test_list.filter(
+                    test_answer__is_correct_answer__exact=True).count(),
+                "number_of_questions": test_list.count()})
+    return render(request, "see_test.html", context)
