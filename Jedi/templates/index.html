@@ -1,14 +1,14 @@
 {% extends "base.html" %}
 {% block title %} 
-    <title>Personel Jedis</title>
+    <title>Jedi Academy</title>
 {% endblock %}
 {% block content %}
-  <h1>Home page</h1>
+  <h1>Academy</h1>
   <p>Welcome to Jedi Academy, please choose who you are - <strong> For Jedis / For Candidates</strong>!</p>
   <h2>Dynamic content</h2>
-  <p>Counter quantity Jedis and Candidates available:</p>
+  <p>Counter total quantity Jedis and Candidates available:</p>
   <ul>
     <li><strong>Candidates:</strong> {{ num_candidates }}</li>
-    <li><strong>Jedi:</strong> {{ num_jedi }}</li>
+    <li><strong>Jedis:</strong> {{ num_jedi }}</li>
   </ul>
 {% endblock %}

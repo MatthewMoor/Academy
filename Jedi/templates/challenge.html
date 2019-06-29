@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 <center>
-    <form method="POST" action="test" >{% csrf_token %}
+    <form method="POST" action="{% url 'test' %}" >{% csrf_token %}
         {% for Question in Questions %}
         <fieldset>
             <legend><p><b>{{ Question.text }}</b></p></legend>
@@ -13,7 +13,7 @@
         </fieldset>
         {% endfor %}
         <input name="candidate_id" type="hidden" value={{candidate_id}}>
-        <input type="submit" value="дальше" >
+        <input type="submit">
     </form>
 </center>
 {% endblock %}

@@ -44,8 +44,14 @@ class TestAnswer(models.Model):
     text = models.TextField()
     is_correct_answer = models.BooleanField()
 
+    def __str__(self):
+        return self.text
+
 
 class CandidateAnswers(models.Model):
     test_question = models.ForeignKey(TestQuestion, on_delete=models.CASCADE)
     test_answer = models.ForeignKey(TestAnswer, on_delete=models.CASCADE)
     candidate = models.ForeignKey(Candidate, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return "{0}, {1}, {2}".format(self.candidate, self.test_question, self.test_answer)

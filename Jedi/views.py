@@ -29,19 +29,26 @@ def candidate_resume(request):
         test_answer = TestAnswer.objects.all()
         return render(request, "challenge.html",
                       {"candidate_id": candidate.id, "Questions": test_question,
-                       "Answers": test_answer})
+                       "Answers": test_answer, 'request': request.method})
+        if request.method == "POST":
+            candidate_answer = CandidateAnswers.objects.create(
+            test_question = request.POST.get("question"),
+            test_answer = request.POST.get("answer"),
+            candidate = request.POST.get("candidate"),
+        )
+        return render(request, "gratitude.html", {"candidate":candidate_answer.id})
     return render(request, "new_member.html", {"form": form})
 
 
-# def send_message(request):
-#     if request.method == "POST":
-#         candidate_answer = CandidateAnswers.objects.create(
-#             test_question = request.POST.get("question"),
-#             test_answer = request.POST.get("answer"),
-#             candidate = request.POST.get("candidate"),
-#         )
-#         return render(request, "gratitude.html", {"candidate":candidate_answer.id})
-#     pass
+def send_message(request):
+    if request.method == "POST":
+        candidate_answer = CandidateAnswers.objects.create(
+            test_question = request.POST.get("question"),
+            test_answer = request.POST.get("answer"),
+            candidate = request.POST.get("candidate"),
+        )
+        return render(request, "gratitude.html", {"candidate":candidate_answer.id})
+    
 
 def test_main(request):
     id_candidate = request.POST.get("candidate_id")
@@ -51,4 +58,4 @@ def test_main(request):
         CandidateAnswers.objects.create(test_question=test_question,
                                         test_answer=test_answer,
                                         candidate_id=id_candidate)
-    return render(request, "gratitude.html")
+    return render(request, "index.html")
