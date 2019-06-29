@@ -70,14 +70,10 @@ def jedis_list(request):
 
 def jedi_from(request):
     jedi = request.POST.get('selected_jedi')
-    context = ({'selected_jedi': jedi,
-                'name': request.POST.get('name_filter', ''),
-                'age': request.POST.get('age_filter', 0),
-                'list_candidates': Candidate.objects.all().filter(
-                    name__icontains=request.POST.get('name_filter', ''),
-                    age__gte=request.POST.get('age_filter', 0),
+    context = {'list_candidates': Candidate.objects.all().filter(
                     planet=Jedi.objects.get(id=jedi).planet,
-                    jedi__isnull=True)})
+                    jedi__isnull=True)}
+
     return render(request, "djedai_detail.html", context)
 
 def see_test(request):
@@ -88,4 +84,4 @@ def see_test(request):
                 "number_of_answer": test_list.filter(
                     test_answer__is_correct_answer__exact=True).count(),
                 "number_of_questions": test_list.count()})
-    return render(request, "see_test.html", context)
+    return render(request, "check_answer.html", context)
