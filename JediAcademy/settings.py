@@ -25,14 +25,9 @@ SECRET_KEY = '&yjja^abfk&x9_0fq+1-i*u=&%60^9q#=n^oj_0q8+n*hex)w&'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'jediacademyrecruitment@gmail.com'
-EMAIL_HOST_PASSWORD = 'JediAdmin'
-EMAIL_PORT = 587
-EMAI_USE_TLS = True
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 ALLOWED_HOSTS = []
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 # Application definition
 
@@ -127,3 +122,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+EMAIL_HOST = 'smtp.mail.com'
+EMAIL_PORT = 2525
+EMAIL_HOST_USER = "saske.98.98@mail.ru"
+EMAIL_HOST_PASSWORD = 'AdErPyO2tj^1'
+EMAI_USE_TLS = True

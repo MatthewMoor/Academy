@@ -5,6 +5,7 @@ from django.views import generic
 from django.db.models import Count
 from django.core.mail import send_mail
 from django.conf import settings
+from django.core import mail
 
 # Create your views here.
 def index(request):
@@ -103,12 +104,11 @@ def send_message(request, jedi_id, candidate_id):
         Count('candidate'))
 
     if number_of_candidate['candidate__count'] < jedi.max_number_pupils:
+
         test_list = CandidateAnswers.objects.all()
-        number_of_questions = test_list.filter(candidate_id=candidate_id
-                                            ).count()
-        number_of_answers = test_list.filter(test_answer__is_correct_answer=
-                                            True, candidate__id=candidate_id
-                                            ).count()
+        number_of_questions = test_list.filter(candidate_id=candidate_id).count()
+        number_of_answers = test_list.filter(test_answer__is_correct_answer=True,
+                                            candidate__id=candidate_id).count()
         candidate.jedi = jedi
         candidate.save()
         letter = (
@@ -116,11 +116,14 @@ def send_message(request, jedi_id, candidate_id):
             'ответов за тест {1} из {2} вопросов. Поздравляю с вступление в '
             'орден и желаем дальнейших успехов'
         ).format(jedi.name, number_of_answers, number_of_questions)
-        send_mail('Вы приняты в орден', letter, settings.EMAIL_HOST_USER,
-                [candidate.email])
+
+        mail.get_connection()
+
+        s = send_mail('Вы приняты в орден', letter, 
+                                        settings.EMAIL_HOST_USER, 
+                                        [candidate.email], fail_silently=True)
+        print(s)
         return render(request, "info.html", {
-            "text": "{0}, взял в падаваны: {1}".format(jedi.name,
-                                                    candidate.name)})
+            "text": "{0}, взял в падаваны: {1}".format(jedi.name, candidate.name)})
     else:
-        return render(request, "info.html", {
-            "text": "У вас максимум учеников"})
+        return render(request, "info.html", {"text": "У вас максимум учеников"})
