@@ -3,6 +3,8 @@ from Jedi.models import Candidate, Jedi, TestQuestion, TestAnswer, Planet, Candi
 from Jedi.forms import CandidateForm
 from django.views import generic
 from django.db.models import Count
+from django.core.mail import send_mail
+from django.conf import settings
 
 # Create your views here.
 def index(request):
@@ -72,9 +74,11 @@ def jedi_from(request):
     jedi = request.POST.get('selected_jedi')
     context = {'list_candidates': Candidate.objects.all().filter(
                     planet=Jedi.objects.get(id=jedi).planet,
-                    jedi__isnull=True)}
+                    jedi__isnull=True),
+                'selected_jedi': jedi}
 
     return render(request, "djedai_detail.html", context)
+
 
 def see_test(request, candidate_id):
     test_list = CandidateAnswers.objects.all().filter(candidate=candidate_id)
@@ -85,3 +89,38 @@ def see_test(request, candidate_id):
                     test_answer__is_correct_answer__exact=True).count(),
                 "number_of_questions": test_list.count(),}
     return render(request, "check_answer.html", context)
+
+
+def send_message(request, jedi_id, candidate_id):
+    """
+    Check out does the Jedi have free places, if yes submit letter, 
+    otherwise show up exception 
+    """
+
+    candidate = Candidate.objects.get(id=candidate_id)
+    jedi = Jedi.objects.get(id=jedi_id)
+    number_of_candidate = Jedi.objects.filter(id=jedi_id).aggregate(
+        Count('candidate'))
+
+    if number_of_candidate['candidate__count'] < jedi.max_number_pupils:
+        test_list = CandidateAnswers.objects.all()
+        number_of_questions = test_list.filter(candidate_id=candidate_id
+                                            ).count()
+        number_of_answers = test_list.filter(test_answer__is_correct_answer=
+                                            True, candidate__id=candidate_id
+                                            ).count()
+        candidate.jedi = jedi
+        candidate.save()
+        letter = (
+            'Мастер Джедай {0} взял к себе в ученики. Количество правильных '
+            'ответов за тест {1} из {2} вопросов. Поздравляю с вступление в '
+            'орден и желаем дальнейших успехов'
+        ).format(jedi.name, number_of_answers, number_of_questions)
+        send_mail('Вы приняты в орден', letter, settings.EMAIL_HOST_USER,
+                [candidate.email])
+        return render(request, "info.html", {
+            "text": "{0}, взял в падаваны: {1}".format(jedi.name,
+                                                    candidate.name)})
+    else:
+        return render(request, "info.html", {
+            "text": "У вас максимум учеников"})

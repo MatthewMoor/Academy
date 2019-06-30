@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
-<form method="POST">{% csrf_token %}
+<form method="POST">
+    {% csrf_token %}
         <center>
             <input type="hidden" name="selected_jedi" value="{{selected_jedi}}">
             <h2>List of candidates</h2>
@@ -13,7 +14,7 @@
                     <td>{{ candidate.age }}</td>
                     <td><a href="{% url 'supervise' candidate.id %}">Result</a></td>
                     <td>{{ candidate.email }}</td>
-                    <td><a href="">Take in student</a></td>
+                    <td><a href="message/{{selected_jedi}}/{{candidate.id}}/">Take in student</a></td>
                 </tr>
                 {% endfor %}
             </table>

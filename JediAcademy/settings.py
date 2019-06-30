@@ -25,6 +25,12 @@ SECRET_KEY = '&yjja^abfk&x9_0fq+1-i*u=&%60^9q#=n^oj_0q8+n*hex)w&'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'jediacademyrecruitment@gmail.com'
+EMAIL_HOST_PASSWORD = 'JediAdmin'
+EMAIL_PORT = 587
+EMAI_USE_TLS = True
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 ALLOWED_HOSTS = []
 
 
