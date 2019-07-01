@@ -123,8 +123,11 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-EMAIL_HOST = 'smtp.mail.com'
-EMAIL_PORT = 2525
-EMAIL_HOST_USER = "saske.98.98@mail.ru"
-EMAIL_HOST_PASSWORD = 'AdErPyO2tj^1'
+
+SEND_GRID_API_KEY = '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'
+EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_HOST_USER = "apikey"
+EMAIL_HOST_PASSWORD = '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'
+EMAIL_PORT = 587
 EMAI_USE_TLS = True
+EMAIL_DEFAULT = 'webmaster@localhost'

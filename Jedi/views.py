@@ -5,7 +5,10 @@ from django.views import generic
 from django.db.models import Count
 from django.core.mail import send_mail
 from django.conf import settings
-from django.core import mail
+from django.core.mail import EmailMessage
+
+from sendgrid.helpers.mail import Mail
+from sendgrid import SendGridAPIClient
 
 # Create your views here.
 def index(request):
@@ -97,7 +100,6 @@ def send_message(request, jedi_id, candidate_id):
     Check out does the Jedi have free places, if yes submit letter, 
     otherwise show up exception 
     """
-
     candidate = Candidate.objects.get(id=candidate_id)
     jedi = Jedi.objects.get(id=jedi_id)
     number_of_candidate = Jedi.objects.filter(id=jedi_id).aggregate(
@@ -117,12 +119,8 @@ def send_message(request, jedi_id, candidate_id):
             'орден и желаем дальнейших успехов'
         ).format(jedi.name, number_of_answers, number_of_questions)
 
-        mail.get_connection()
-
-        s = send_mail('Вы приняты в орден', letter, 
-                                        settings.EMAIL_HOST_USER, 
-                                        [candidate.email], fail_silently=True)
-        print(s)
+        send_mail('Вы приняты в орден', letter, settings.EMAIL_DEFAULT, [candidate.email],)
+                                        
         return render(request, "info.html", {
             "text": "{0}, взял в падаваны: {1}".format(jedi.name, candidate.name)})
     else:
