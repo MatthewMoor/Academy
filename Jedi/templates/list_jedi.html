@@ -8,7 +8,6 @@
 <form action=""></form>
 <form method="POST" action="{% url 'Djedi' %}">
     {% csrf_token %}
-    <center>
         <table>
             <tr><th colspan="3">
                 <select name="selected_jedi">
@@ -29,6 +28,5 @@
             </tr>
             {% endfor %}
         </table>
-    </center>
 </form>
 {% endblock %}

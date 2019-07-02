@@ -1,11 +1,6 @@
 {% extends "base.html" %}
 
 {% block content %}
-<form method="post">
-    {% csrf_token %}
-    {{ form }}
-    <input type="submit">
-</form>
 <h4 style="color:red">*Выбранный джедай, должен соответстовать его планете!</h4>
 <table>
     <tr><th>Jedi</th><th>Planet</th>
@@ -16,4 +11,14 @@
     </tr>
     {% endfor %}
 </table>
+<br>
+
+<div class="col-sm-2">
+    <form method="post">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit">
+    </form>
+</div>
+
 {% endblock %}
