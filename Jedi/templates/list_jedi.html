@@ -23,9 +23,7 @@
             <tr>
                 <td>{{ jedi.name }}</td>
                 <td>
-                    {% for students in  jedi.candidate_set.all %}
                         {{ jedi.candidate_set.all.count }}<br>
-                    {% endfor %}
                 </td>
                 <td>{{ jedi.planet.name }}</td>
             </tr>
