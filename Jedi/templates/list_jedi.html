@@ -22,9 +22,9 @@
             {% for jedi in list_jedi %}
             <tr>
                 <td>{{ jedi.name }}</td>
-                <td nowrap>
+                <td>
                     {% for students in  jedi.candidate_set.all %}
-                        {{ students.name }}<br>
+                        {{ jedi.candidate_set.all.count }}<br>
                     {% endfor %}
                 </td>
                 <td>{{ jedi.planet.name }}</td>

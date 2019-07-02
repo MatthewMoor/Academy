@@ -6,4 +6,14 @@
     {{ form }}
     <input type="submit">
 </form>
+<h4 style="color:red">*Выбранный джедай, должен соответстовать его планете!</h4>
+<table>
+    <tr><th>Jedi</th><th>Planet</th>
+    {% for jedi in jedis_list %}
+    <tr>
+        <td>{{ jedi.name }}</td>
+        <td>{{ jedi.planet }}</td>
+    </tr>
+    {% endfor %}
+</table>
 {% endblock %}

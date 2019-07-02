@@ -1,3 +1,4 @@
+
 from django.shortcuts import render
 from Jedi.models import Candidate, Jedi, TestQuestion, TestAnswer, Planet, CandidateAnswers
 from Jedi.forms import CandidateForm
@@ -26,6 +27,7 @@ def index(request):
 
 def candidate_resume(request):
     form = CandidateForm
+    jedis_list = Jedi.objects.all()
     if request.method == "POST":
         candidate = Candidate.objects.create(
             planet_id=request.POST.get("planet"),
@@ -38,17 +40,7 @@ def candidate_resume(request):
         return render(request, "challenge.html",
                       {"candidate_id": candidate.id, "Questions": test_question,
                        "Answers": test_answer, 'request': request.method})
-    return render(request, "new_member.html", {"form": form})
-
-
-# def send_message(request):
-#     if request.method == "POST":
-#         candidate_answer = CandidateAnswers.objects.create(
-#             test_question = request.POST.get("question"),
-#             test_answer = request.POST.get("answer"),
-#             candidate = request.POST.get("candidate"),
-#         )
-#         return render(request, "gratitude.html", {"candidate":candidate_answer.id})
+    return render(request, "new_member.html", {"form": form, "jedis_list": jedis_list})
     
 
 def test_save(request):
