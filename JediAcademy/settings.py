@@ -126,7 +126,7 @@ STATIC_URL = '/static/'
 
 EMAIL_HOST = 'smtp.sendgrid.net'
 EMAIL_HOST_USER = "apikey"
-EMAIL_HOST_PASSWORD = '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'
+EMAIL_HOST_PASSWORD = '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'
 EMAIL_PORT = 587
 EMAI_USE_TLS = True
 EMAIL_DEFAULT = 'webmaster@localhost'
